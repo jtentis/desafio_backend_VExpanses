@@ -12,3 +12,30 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Plan {
+  id         Int       @id @default(autoincrement())
+  name       String
+  description String?  // Opcional
+  products   Product[] // Relação com os produtos
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String? // Opcional
+  plan        Plan?   @relation(fields: [planId], references: [id])
+  planId      Int?
+}
+
+model PlanHistory {
+  id         Int      @id @default(autoincrement())
+  action     String   // Adicionado ou Removido
+  productId  Int
+  planId     Int
+  timestamp  DateTime @default(now())
+  product    Product  @relation(fields: [productId], references: [id])
+  plan       Plan     @relation(fields: [planId], references: [id])
+}
