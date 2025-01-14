@@ -1,20 +1,5 @@
 services:
 
-  desafio_vexpanses:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: desafio_vexpanses
-    ports:
-      - "4000:4000"
-    environment:
-      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@db_postgres:5432/${DB_NAME}
-      DEBUG: prisma:client
-    depends_on:
-      - db_postgres
-    networks:
-      - app_network
-
   db_postgres:
     image: postgres:13.5
     container_name: db_postgres
