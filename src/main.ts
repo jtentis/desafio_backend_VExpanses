@@ -9,6 +9,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Desafio Técnico Backend VExpanses')
     .setDescription('API para gerenciar planos de assinatura.')
+    .addBearerAuth()
     .setVersion('1.0')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);

@@ -1,9 +1,17 @@
 import { PrismaClient } from '@prisma/client';
+import * as bcrypt from 'bcrypt';
 
 const prisma = new PrismaClient();
 
 async function main() {
   console.log('populando database');
+
+  const user1 = await prisma.user.create({
+    data: {
+      username: 'usuario_teste',
+      password: await bcrypt.hash('password_teste', 10),
+    },
+  });
 
   const product1 = await prisma.product.create({
     data: {
@@ -55,7 +63,7 @@ async function main() {
     ],
   });
 
-  console.log('Histórico criado.');
+  console.log('historico criado.');
 }
 
 main()

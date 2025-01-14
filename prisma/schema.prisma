@@ -13,12 +13,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Plan {
   id         Int            @id @default(autoincrement())
   name       String
-  description String?       // Opcional
-  products   Product[]      // Relação com os produtos
-  planHistory PlanHistory[] // Relação com o histórico
+  description String?
+  products   Product[]
+  planHistory PlanHistory[]
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
 }
@@ -26,15 +34,15 @@ model Plan {
 model Product {
   id          Int            @id @default(autoincrement())
   name        String
-  description String?        // Opcional
+  description String?
   plan        Plan?          @relation(fields: [planId], references: [id])
   planId      Int?
-  planHistory PlanHistory[]  // Relação com o histórico
+  planHistory PlanHistory[]
 }
 
 model PlanHistory {
   id         Int      @id @default(autoincrement())
-  action     String   // Adicionado ou Removido
+  action     String
   productId  Int
   planId     Int
   timestamp  DateTime @default(now())

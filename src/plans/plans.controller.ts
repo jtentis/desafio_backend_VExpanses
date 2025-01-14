@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { PlansService } from './plans.service';
 
-@ApiTags('plans') // Group the endpoints under the "plans" tag
+@ApiTags('plans')
+@UseGuards(JwtAuthGuard)
+@ApiBearerAuth() // para o swagger
 @Controller('plans')
 export class PlansController {
     constructor(private readonly planService: PlansService) { }
