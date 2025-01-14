@@ -35,7 +35,7 @@ export class PlansService {
 
     await this.prisma.planHistory.create({
         data: {
-          action: `Produto ${planId} adcionado com sucesso!`,
+          action: `Produto ${productId} adcionado com sucesso!`,
           planId: planId,
           productId: productId,
         },
@@ -56,7 +56,7 @@ export class PlansService {
 
     await this.prisma.planHistory.create({
         data: {
-          action: `Produto ${planId} removido com sucesso!`,
+          action: `Produto ${productId} removido com sucesso!`,
           planId: planId,
           productId: productId,
         },
@@ -73,5 +73,15 @@ export class PlansService {
       },
     });
     return plan;
+  }
+
+  async getAllPlanDetails() {
+    const plans = await this.prisma.plan.findMany({
+        include: {
+            products: true,
+            planHistory: true,
+        },
+    });
+    return plans;
   }
 }
