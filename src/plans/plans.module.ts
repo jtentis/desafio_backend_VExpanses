@@ -4,7 +4,7 @@ import { PlansController } from './plans.controller';
 import { PlansService } from './plans.service';
 
 @Module({
-  imports: [PrismaModule], // Importa o PrismaModule
+  imports: [PrismaModule],
   providers: [PlansService],
   controllers: [PlansController],
 })

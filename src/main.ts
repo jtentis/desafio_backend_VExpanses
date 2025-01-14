@@ -9,7 +9,7 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('Desafio Técnico Backend VExpanses')
     .setDescription('API para gerenciar planos de assinatura.')
-    .addTag('auth')
+    .addTag('auth') // trazendo para o topo pois faz mais sentido visualmente
     .addBearerAuth()
     .setVersion('1.0')
     .build();

@@ -9,8 +9,8 @@ import { JwtStrategy } from './jwt.strategy';
   imports: [
     PassportModule,
     JwtModule.register({
-      secret: process.env.JWT_SECRET, // Use uma variável de ambiente para o segredo
-      signOptions: { expiresIn: '1h' }, // Tempo de expiração do token
+      secret: process.env.JWT_SECRET, // foi utilizado um gerador base 256
+      signOptions: { expiresIn: '1h' }, 
     }),
   ],
   controllers: [AuthController],

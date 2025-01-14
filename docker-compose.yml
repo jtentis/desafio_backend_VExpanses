@@ -5,7 +5,7 @@ services:
     container_name: db_postgres
     restart: always
     environment:
-      POSTGRES_USER: ${DB_USER}
+      POSTGRES_USER: ${DB_USER}  #extraindo do .env por motivos de segurança
       POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: ${DB_NAME}
     volumes:
