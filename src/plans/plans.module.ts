@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
-import { PlansService } from './plans.service';
+import { PrismaModule } from '../prisma/prisma.module'; // Certifique-se de usar o caminho correto
 import { PlansController } from './plans.controller';
+import { PlansService } from './plans.service';
 
 @Module({
+  imports: [PrismaModule], // Importa o PrismaModule
   providers: [PlansService],
-  controllers: [PlansController]
+  controllers: [PlansController],
 })
 export class PlansModule {}

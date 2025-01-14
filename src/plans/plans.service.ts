@@ -1,4 +1,77 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service'; // Serviço do Prisma
+import { CreatePlanDto } from './dto/create-plan.dto';
 
 @Injectable()
-export class PlansService {}
+export class PlansService {
+  constructor(private prisma: PrismaService) {}
+
+  async create(createPlanDto: CreatePlanDto) {
+    const plan = await this.prisma.plan.create({
+      data: {
+        name: createPlanDto.name,
+        description: createPlanDto.description,
+        products: {
+          connect: createPlanDto.productIds.map(id => ({ id })),
+        },
+      },
+    });
+    return plan;
+  }
+
+  async addProductToPlan(planId: number, productId: number) {
+    const plan = await this.prisma.plan.update({
+      where: {
+        id: planId,
+      },
+      data: {
+        products: {
+          connect: {
+            id: productId,
+          },
+        },
+      },
+    });
+
+    await this.prisma.planHistory.create({
+        data: {
+          action: `Produto ${planId} adcionado com sucesso!`,
+          planId: planId,
+          productId: productId,
+        },
+      });
+
+    return plan;
+  }
+
+  async removeProductFromPlan(planId: number, productId: number) {
+    const plan = await this.prisma.plan.update({
+      where: { id: planId },
+      data: {
+        products: {
+          disconnect: { id: productId },
+        },
+      },
+    });
+
+    await this.prisma.planHistory.create({
+        data: {
+          action: `Produto ${planId} removido com sucesso!`,
+          planId: planId,
+          productId: productId,
+        },
+      });
+    return plan;
+  }
+
+  async getPlanDetails(planId: number) {
+    const plan = await this.prisma.plan.findUnique({
+      where: { id: planId },
+      include: {
+        products: true,
+        planHistory: true,
+      },
+    });
+    return plan;
+  }
+}
