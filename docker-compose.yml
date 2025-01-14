@@ -1,0 +1,51 @@
+services:
+
+  desafio_vexpanses:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: desafio_vexpanses
+    ports:
+      - "4000:4000"
+    environment:
+      DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5433/${DB_NAME}
+      DEBUG: prisma:client
+    depends_on:
+      - db_postgres
+    networks:
+      - app_network
+
+  db_postgres:
+    image: postgres:13.5
+    container_name: db_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    ports:
+      - '5433:5433'
+    networks:
+      - app_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "jps.tentis@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "pass"
+    ports:
+      - "5060:80"
+    depends_on:
+      - db_postgres
+    networks:
+      - app_network
+
+volumes:
+  postgres:
+
+networks:
+  app_network:
+    driver: bridge
