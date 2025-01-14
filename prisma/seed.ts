@@ -3,70 +3,64 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-  // criacao de produtos
+  console.log('populando database');
+
   const product1 = await prisma.product.create({
     data: {
-      name: 'Produto 1',
-      description: 'Descrição do Produto 1',
+      name: 'Produto A',
+      description: 'Descrição do Produto A',
     },
   });
 
   const product2 = await prisma.product.create({
     data: {
-      name: 'Produto 2',
-      description: 'Descrição do Produto 2',
+      name: 'Produto B',
+      description: 'Descrição do Produto B',
     },
   });
 
   const product3 = await prisma.product.create({
     data: {
-      name: 'Produto 3',
-      description: 'Descrição do Produto 3',
+      name: 'Produto C',
+      description: 'Descrição do Produto C',
     },
   });
 
-  // criacao de um plano com produtos
   const plan1 = await prisma.plan.create({
     data: {
-      name: 'Plano Básico',
-      description: 'Plano inicial com produtos básicos.',
+      name: 'plano básico',
+      description: 'plano inicial.',
       products: {
-        connect: [{ id: product1.id }, { id: product2.id }],
+        connect: [{ id: product1.id }],
       },
     },
   });
 
-  // historico de produtos adicionados ao plano
-  await prisma.planHistory.create({
+  const plan2 = await prisma.plan.create({
     data: {
-      action: 'Adicionado',
-      productId: product1.id,
-      planId: plan1.id,
+      name: 'plano premium',
+      description: 'plano premium com produtos premium',
+      products: {
+        connect: [{ id: product2.id }, { id: product3.id }],
+      },
     },
   });
 
-  await prisma.planHistory.create({
-    data: {
-      action: 'Adicionado',
-      productId: product2.id,
-      planId: plan1.id,
-    },
+  //seedando historico só pra nao ficar vazio
+  await prisma.planHistory.createMany({
+    data: [
+      { action: 'Adicionado', planId: plan1.id, productId: product1.id },
+      { action: 'Adicionado', planId: plan2.id, productId: product2.id },
+      { action: 'Adicionado', planId: plan2.id, productId: product3.id },
+    ],
   });
 
-  // criacao de outro plano sem produtos no início
-  await prisma.plan.create({
-    data: {
-      name: 'Plano Premium',
-      description: 'Plano premium sem produtos iniciais.',
-    },
-  });
-
-  console.log('Seed executado com sucesso!');
+  console.log('Histórico criado.');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('Erro no seed:', e);
     process.exit(1);
   })
   .finally(async () => {
