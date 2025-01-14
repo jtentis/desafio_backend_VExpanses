@@ -1,0 +1,74 @@
+{
+    "numFailedTestSuites": 0,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 1,
+    "numPassedTests": 2,
+    "numPendingTestSuites": 0,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0,
+    "numTodoTests": 0,
+    "numTotalTestSuites": 1,
+    "numTotalTests": 2,
+    "openHandles": [],
+    "snapshot": {
+        "added": 0,
+        "didUpdate": false,
+        "failure": false,
+        "filesAdded": 0,
+        "filesRemoved": 0,
+        "filesRemovedList": [],
+        "filesUnmatched": 0,
+        "filesUpdated": 0,
+        "matched": 0,
+        "total": 0,
+        "unchecked": 0,
+        "uncheckedKeysByFile": [],
+        "unmatched": 0,
+        "updated": 0
+    },
+    "startTime": 1736897709115,
+    "success": true,
+    "testResults": [
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 13,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E should create a new product",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "should create a new product"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 7,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E should retrieve all products",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "should retrieve all products"
+                }
+            ],
+            "endTime": 1736897712095,
+            "message": "",
+            "name": "E:\\desafio_vexpanses\\test\\app.e2e-spec.ts",
+            "startTime": 1736897709195,
+            "status": "passed",
+            "summary": ""
+        }
+    ],
+    "wasInterrupted": false
+}

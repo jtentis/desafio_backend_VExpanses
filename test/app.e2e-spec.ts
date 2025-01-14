@@ -5,6 +5,7 @@ import { AppModule } from '../src/app.module';
 
 describe('App E2E', () => {
   let app: INestApplication;
+  let authToken: string; 
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -13,6 +14,18 @@ describe('App E2E', () => {
 
     app = moduleFixture.createNestApplication();
     await app.init();
+
+    // Log in to get a token
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({
+        username: 'usuario_teste', 
+        password: 'password_teste',
+      });
+
+    authToken = loginResponse.body.access_token; 
+    console.log('Login Response:', loginResponse.body);
+    authToken = loginResponse.body.access_token; 
   });
 
   afterAll(async () => {
@@ -22,6 +35,7 @@ describe('App E2E', () => {
   it('should create a new product', async () => {
     const response = await request(app.getHttpServer())
       .post('/products')
+      .set('Authorization', `Bearer ${authToken}`)
       .send({
         name: 'Product Test',
         description: 'Description of the product',
@@ -33,7 +47,10 @@ describe('App E2E', () => {
   });
 
   it('should retrieve all products', async () => {
-    const response = await request(app.getHttpServer()).get('/products');
+    const response = await request(app.getHttpServer())
+      .get('/products')
+      .set('Authorization', `Bearer ${authToken}`);
+
     expect(response.status).toBe(200);
     expect(response.body).toBeInstanceOf(Array);
   });
