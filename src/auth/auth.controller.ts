@@ -9,9 +9,10 @@ export class AuthController {
     constructor(private authService: AuthService) { }
 
     @Post('login')
-    @ApiOperation({ summary: 'Faça login para autenticar.' })
-    @ApiResponse({ status: 200, description: 'Usuário logado com sucesso.' })
-    @ApiResponse({ status: 400, description: 'Erro de login.' })
+    @ApiOperation({ summary: 'Faça login para autenticar.', description: 'Autentique-se para liberar todas as funcionalidades abaixo!'})
+    @ApiResponse({ status: 201, description: 'Usuário logado com sucesso.' })
+    @ApiResponse({ status: 401, description: 'Credencias inválidas.' })
+    @ApiResponse({ status: 500, description: 'Erro de conexão!' })
     async login(@Body() authDto: AuthDto) {
         const user = await this.authService.validateUser(authDto);
         if (!user) {

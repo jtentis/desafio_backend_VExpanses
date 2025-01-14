@@ -7,14 +7,33 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createProductDto: CreateProductDto) {
-    return this.prisma.product.create({
-      data: createProductDto,
+  async create({name, description, planId}: CreateProductDto) {
+    const product = await this.prisma.product.create({
+      data: {
+        name,
+        description,
+        planId
+      }
     });
+
+    if (planId) {
+        await this.prisma.planHistory.create({
+          data: {
+            action: `Produto ${product.id} foi adicionado ao plano ${planId}.`,
+            planId,
+            productId: product.id,
+          },
+        });
+      }
+      return product;
   }
 
   async findAll() {
-    return this.prisma.product.findMany();
+    return this.prisma.product.findMany({
+        include:{
+            plan: true
+        }
+    });
   }
 
   async findOne(id: number) {

@@ -31,6 +31,9 @@ export class PlansService {
           },
         },
       },
+      include:{
+        products: true,
+      }
     });
 
     await this.prisma.planHistory.create({
