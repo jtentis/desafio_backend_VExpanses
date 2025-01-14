@@ -25,7 +25,7 @@ export class PlansController {
     }
 
     @Get(':id')
-    @ApiOperation({ summary: 'Ver detalhe dos planos!', description: 'Recebe informações detalhadas sobre um plano especifico, incluindo seu histórico e produtos.' })
+    @ApiOperation({ summary: 'Ver detalhe de um plano especifico!', description: 'Recebe informações detalhadas sobre um plano especifico, incluindo seu histórico e produtos.' })
     @ApiResponse({ status: 200, description: 'Detalhes do plano especificado.' })
     @ApiResponse({ status: 404, description: 'Plano não encontrado!' })
     @ApiParam({ name: 'id', type: Number, description: 'ID do plano desejado.' })
@@ -34,7 +34,7 @@ export class PlansController {
     }
 
     @Post(':planId/products/:productId')
-    @ApiOperation({ summary: 'Adicione um produto a um plano!', description: 'Associar um produto a um plano existente!' })
+    @ApiOperation({ summary: 'Adicione um produto a um plano especifico!', description: 'Associar um produto a um plano existente!' })
     @ApiResponse({ status: 201, description: 'O produto foi adicionado ao plano.' })
     @ApiResponse({ status: 404, description: 'Plano ou produto não encontrado.' })
     @ApiParam({ name: 'planId', type: Number, description: 'ID do plano para qual o produto será adicionado!' })
