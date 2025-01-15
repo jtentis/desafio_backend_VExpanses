@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, Logger, Param, Post, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Logger, Param, Post, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreatePlanDto } from './dto/create-plan.dto';
 import { PlansService } from './plans.service';
@@ -80,5 +80,21 @@ export class PlansController {
         const plan = await this.planService.removeProductFromPlan(Number(planId), Number(productId));
         this.logger.log(`Foi removido um produto a um plano especifico: produto ${planId} e plano ${productId}`);
         return plan;
+    }
+
+    @ApiOperation({ summary: 'Paginação de histórico', description: 'Veja as paginas do historico de algum plano pelo seu ID (limite de 3 ações por pagina).' })
+    @ApiResponse({ status: 201, description: 'Sucesso. O historico exibido para o plano especificado.' })
+    @ApiResponse({ status: 404, description: 'Plano não encontrado.' })
+    @ApiResponse({ status: 401, description: 'Não autorizado!' })
+    @ApiResponse({ status: 500, description: 'Conexão perdida!' })
+    @ApiQuery({ name: 'page', type: Number, description: 'Número da pagina que deseja ver', required: false})
+    @ApiParam({ name: 'planId', type: Number, description: 'ID do plano.' })
+    @Get(':planId/history')
+    async getPlanHistory(
+      @Param('planId') planId: number,
+      @Query('page') page = 1,
+      @Query('limit') limit = 3,
+    ) {
+      return this.planService.getPlanHistory(Number(planId), Number(+page), +limit);
     }
 }

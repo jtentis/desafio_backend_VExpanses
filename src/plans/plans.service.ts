@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service'; // Serviço do Prisma
 import { CreatePlanDto } from './dto/create-plan.dto';
 
@@ -7,6 +7,9 @@ export class PlansService {
     constructor(private prisma: PrismaService) { }
 
     async create(createPlanDto: CreatePlanDto) {
+        if (!createPlanDto.productIds || createPlanDto.productIds.length === 0) {
+            throw new BadRequestException('O plano deve ser criado com pelo menos um produto.');
+        }
         const plan = await this.prisma.plan.create({
             data: {
                 name: createPlanDto.name,
@@ -96,5 +99,28 @@ export class PlansService {
             },
         });
         return plans;
+    }
+
+    async getPlanHistory(planId: number, page: number, limit: number) {
+        const skip = (page - 1) * limit;
+
+        const [history, total] = await Promise.all([
+            this.prisma.planHistory.findMany({
+                where: { planId },
+                skip,
+                take: limit,
+                orderBy: { timestamp: 'desc' },
+            }),
+            this.prisma.planHistory.count({ where: { planId } }),
+        ]);
+
+        const totalPages = Math.ceil(total / limit);
+
+        return {
+            total,
+            totalPages,
+            currentPage: page,
+            history,
+        };
     }
 }
