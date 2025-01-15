@@ -47,6 +47,8 @@ Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** par
 ## Extras pessoais
 - &#x2611; CRUD completa de produtos.
 - &#x2611; Utilização do Swagger para documentação completa do código.
+- &#x2611; Utilização do Prisma ORM para a manipulação de dados e um desenvolvimento mais rápido e seguro.
+- &#x2611; Utilização do Docker para conteinerização do PostgreSQL.
 
 
 
