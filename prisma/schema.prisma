@@ -46,6 +46,6 @@ model PlanHistory {
   productId  Int
   planId     Int
   timestamp  DateTime @default(now())
-  product    Product  @relation(fields: [productId], references: [id])
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   plan       Plan     @relation(fields: [planId], references: [id])
 }

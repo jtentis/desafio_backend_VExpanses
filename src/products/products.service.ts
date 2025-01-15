@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -50,9 +50,34 @@ export class ProductsService {
   }
 
   //TODO: fix this
-  async remove(id: number) {
-    return this.prisma.product.delete({
-      where: { id },
+  async remove(productId: number) {
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
     });
+
+    if (!product) {
+      throw new NotFoundException(`Produto com ID ${productId} não encontrado.`);
+    }
+
+    const relatedPlans = await this.prisma.planHistory.findMany({
+      where: { productId },
+      select: { planId: true },
+    });
+
+    for (const plan of relatedPlans) {
+      await this.prisma.planHistory.create({
+        data: {
+          action: `Produto ${product.name} foi excluído do plano ${plan.planId}.`,
+          planId: plan.planId,
+          productId,
+        },
+      });
+    }
+
+    await this.prisma.product.delete({
+      where: { id: productId },
+    });
+
+    return { message: `Produto ${productId} removido com sucesso.` };
   }
 }
