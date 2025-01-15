@@ -1,13 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
 @Injectable()
 export class ProductsService {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
-  async create({name, description, planId}: CreateProductDto) {
+  async create({ name, description, planId }: CreateProductDto) {
     const product = await this.prisma.product.create({
       data: {
         name,
@@ -17,39 +17,68 @@ export class ProductsService {
     });
 
     if (planId) {
-        await this.prisma.planHistory.create({
-          data: {
-            action: `Produto ${product.id} foi adicionado ao plano ${planId}.`,
-            planId,
-            productId: product.id,
-          },
-        });
-      }
-      return product;
+      await this.prisma.planHistory.create({
+        data: {
+          action: `Produto ${product.id} foi adicionado ao plano ${planId}.`,
+          planId,
+          productId: product.id,
+        },
+      });
+    }
+    return product;
   }
 
   async findAll() {
-    return this.prisma.product.findMany({
-        include:{
-            plan: true
-        }
+    const products = await this.prisma.product.findMany();
+
+    if(products.length == 0){
+      throw new BadRequestException(`Sem produtos para listar`);
+    }
+
+    const product = await this.prisma.product.findMany({
+      include: {
+        plan: false
+      }
     });
+
+    const filteredProduct = product.map(({ planId, ...rest }) => rest);
+
+    return filteredProduct;
   }
 
   async findOne(id: number) {
-    return this.prisma.product.findUnique({
+    if (!id) {
+      throw new BadRequestException(`O ID fornecido é inválido.`);
+    }
+
+    const product = await this.prisma.product.findUnique({
       where: { id },
     });
+
+    if (!product) {
+      throw new NotFoundException(`O produto com ID ${id} não foi encontrado.`);
+    }
+
+    const { planId, ...filteredProduct } = product;
+
+    return filteredProduct;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(productId: number, updateProductDto: UpdateProductDto) {
+    const product = await this.prisma.product.findUnique({
+      where: { id: productId },
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Produto com ID ${productId} não encontrado.`);
+    }
+
     return this.prisma.product.update({
-      where: { id },
+      where: { id: productId },
       data: updateProductDto,
     });
   }
 
-  //TODO: fix this
   async remove(productId: number) {
     const product = await this.prisma.product.findUnique({
       where: { id: productId },

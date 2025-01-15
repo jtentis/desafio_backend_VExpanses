@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -47,7 +47,7 @@ export class ProductsController {
         return this.productsService.findOne(Number(id));
     }
 
-    @Put(':id')
+    @Patch(':id')
     @ApiOperation({ summary: 'Atualize um produto.', description: 'Atualiza um produto existente.' })
     @ApiResponse({ status: 201, description: 'Sucesso. O produto foi editad.' })
     @ApiResponse({ status: 404, description: 'Produto não encontrado.' })
