@@ -210,11 +210,12 @@ Os principais endpoints disponíveis são:
 3. Listar plano especifico
 ![alt text](/markdown_assets/image-8.png)
 
-4. Adicionar produto em plano
+4. Remover produto de plano
+![alt text](/markdown_assets/image-10.png)
+
+5. Adicionar produto em plano
 ![alt text](/markdown_assets/image-9.png)
 
-5. Remover produto de plano
-![alt text](/markdown_assets/image-10.png)
 
 ### 🧪 Testes e Resultados
 Os testes foram implementados utilizando supertest para E2E. Para rodar os testes:
