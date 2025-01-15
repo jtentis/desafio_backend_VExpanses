@@ -60,7 +60,9 @@ Certifique-se de que você possui (mostrarei a versão para windows):
 
 ---
 
-## Configurando o Banco de Dados (Docker)
+### Configurando o Banco de Dados (Docker)
+1. Faça download e instale o [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) caso não tenha.
+
 1. Crie um arquivo `docker-compose.yml`:
    ```yaml
    services:
@@ -112,7 +114,7 @@ Certifique-se de que você possui (mostrarei a versão para windows):
   <img src="/markdown_assets/image.png" width="80%">
 </div>
 
-## Clonando o Repositório e Instalando Dependências
+### Clonando o Repositório e Instalando Dependências
 1. Clone o repositório:
 ```bash
 git clone <link-do-repositorio>
@@ -123,12 +125,16 @@ cd <nome-do-repositorio>
 ```bash
 npm install
 ```
-## 🛠️ Configuração do Ambiente
+### 🛠️ Configuração do Ambiente
 1. Crie um arquivo .env na raiz do projeto:
+    - [Link](https://jwtsecret.com/generate) para gerar JWT Token.
 
 ```env
   DATABASE_URL='postgresql://postgres:postgres@localhost:5432/vexpanses'
   JWT_SECRET='your_jwt_secret' #gere uma online caso precise
+  DB_USER = 'postgres'
+  DB_PASSWORD = 'postgres'
+  DB_NAME='vexpanses'
 ```
 2. Certifique-se de que a variável DATABASE_URL está correta para o banco de dados.
 3. Execute as migrações do Prisma:
@@ -147,7 +153,7 @@ npx prisma db seed
   <img src="/markdown_assets/image-2.png" width="70%">
 </div>
 
-### 🚀 Executando o Projeto
+## 🚀 Executando o Projeto
 
 1. Inicie o servidor:
 ```bash
@@ -168,7 +174,7 @@ http://localhost:4000/api
   <img src="/markdown_assets/image-3.png" width="100%">
 </div>
 
-### 📜 Endpoints e Documentação (Swagger)
+## 📜 Endpoints e Documentação (Swagger)
 Os principais endpoints disponíveis são:
 
 1. Autenticação:
@@ -192,7 +198,23 @@ Os principais endpoints disponíveis são:
 4. Histórico:
     - GET /plans/:planId/history: Obter o histórico de um plano (com paginação).
 
-Espaço para print: Exemplos de payloads e respostas de endpoints
+### Prints de exemplos do postman (endpoints de planos)
+ [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar dentro do Postman e fazer download do Postman Agent).
+
+1. Criar plano
+![alt text](/markdown_assets/image-5.png)
+
+2. Listar todos os planos
+![alt text](/markdown_assets/image-6.png)
+
+3. Listar plano especifico
+![alt text](/markdown_assets/image-8.png)
+
+4. Adicionar produto em plano
+![alt text](/markdown_assets/image-9.png)
+
+5. Remover produto de plano
+![alt text](/markdown_assets/image-10.png)
 
 ### 🧪 Testes e Resultados
 Os testes foram implementados utilizando supertest para E2E. Para rodar os testes:
@@ -438,23 +460,6 @@ Resposta:
   "error": "Bad Request"
 }
 ```
-### Prints de exemplos do postman (endpoints de planos)
-## [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar).
-
-1. Criar plano
-![alt text](/markdown_assets/image-5.png)
-
-2. Listar todos os planos
-![alt text](/markdown_assets/image-6.png)
-
-3. Listar plano especifico
-![alt text](/markdown_assets/image-8.png)
-
-4. Adicionar produto em plano
-![alt text](/markdown_assets/image-9.png)
-
-5. Remover produto de plano
-![alt text](/markdown_assets/image-10.png)
 
 ## 🔍 Erros Comuns e Soluções
 **Erro: Produto Não Encontrado na Criação de Plano**
