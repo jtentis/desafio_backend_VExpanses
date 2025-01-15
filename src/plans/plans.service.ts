@@ -8,50 +8,50 @@ export class PlansService {
 
     async create(createPlanDto: CreatePlanDto) {
         if (!createPlanDto.productIds || createPlanDto.productIds.length === 0) {
-          throw new BadRequestException('O plano deve ser criado com pelo menos um produto.');
+            throw new BadRequestException('O plano deve ser criado com pelo menos um produto.');
         }
-      
+
         // Verificar a existência dos produtos
         const existingProducts = await this.prisma.product.findMany({
-          where: {
-            id: { in: createPlanDto.productIds },
-          },
+            where: {
+                id: { in: createPlanDto.productIds },
+            },
         });
-      
+
         if (existingProducts.length !== createPlanDto.productIds.length) {
-          throw new BadRequestException('Um ou mais produtos fornecidos não existem.');
+            throw new BadRequestException('Um ou mais produtos fornecidos não existem.');
         }
-      
+
         // Criar o plano
         const plan = await this.prisma.plan.create({
-          data: {
-            name: createPlanDto.name,
-            description: createPlanDto.description,
-            products: {
-              connect: createPlanDto.productIds.map((id) => ({ id })),
-            },
-          },
-          include:{
-            products: true
-          }
-        });
-      
-        for (const productId of createPlanDto.productIds) {
-          await this.prisma.planHistory.create({
             data: {
-              action: `Produto ${productId} foi adicionado ao plano ${plan.name}.`,
-              planId: plan.id,
-              productId: productId,
+                name: createPlanDto.name,
+                description: createPlanDto.description,
+                products: {
+                    connect: createPlanDto.productIds.map((id) => ({ id })),
+                },
             },
-          });
+            include: {
+                products: true
+            }
+        });
+
+        for (const productId of createPlanDto.productIds) {
+            await this.prisma.planHistory.create({
+                data: {
+                    action: `Produto ${productId} foi adicionado ao plano ${plan.name}.`,
+                    planId: plan.id,
+                    productId: productId,
+                },
+            });
         }
-      
+
         return plan;
-      }
+    }
 
     async addProductToPlan(planId: number, productId: number) {
         const productExists = await this.prisma.plan.findFirst({
-            where: {id: productId},
+            where: { id: productId },
         });
 
         if (!productExists) {
@@ -90,7 +90,7 @@ export class PlansService {
                 planHistory: true,
             },
         });
-        
+
         return plan;
     }
 
@@ -103,11 +103,11 @@ export class PlansService {
                 },
             },
         });
-    
+
         if (!productExistsInPlan) {
             throw new BadRequestException(`O produto ${productId} não está associado ao plano ${planId}.`);
         }
-    
+
         await this.prisma.plan.update({
             where: { id: planId },
             data: {
@@ -116,7 +116,7 @@ export class PlansService {
                 },
             },
         });
-    
+
         await this.prisma.planHistory.create({
             data: {
                 action: `Produto ${productId} removido com sucesso!`,
@@ -124,7 +124,7 @@ export class PlansService {
                 productId: productId,
             },
         });
-    
+
         const updatedPlan = await this.prisma.plan.findUnique({
             where: { id: planId },
             include: {
@@ -132,10 +132,10 @@ export class PlansService {
                 planHistory: true,
             },
         });
-    
+
         return updatedPlan;
     }
-    
+
 
     async getPlanDetails(planId: number) {
         const plan = await this.prisma.plan.findUnique({
@@ -145,6 +145,10 @@ export class PlansService {
                 planHistory: true,
             },
         });
+
+        if (!plan) {
+            throw new BadRequestException(`O plano ${planId} não existe.`);
+        }
         return plan;
     }
 
