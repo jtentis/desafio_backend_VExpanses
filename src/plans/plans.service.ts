@@ -50,7 +50,7 @@ export class PlansService {
       }
 
     async addProductToPlan(planId: number, productId: number) {
-        const plan = await this.prisma.plan.update({
+        await this.prisma.plan.update({
             where: {
                 id: planId,
             },
@@ -75,11 +75,19 @@ export class PlansService {
             },
         });
 
+        const plan = await this.prisma.plan.findUnique({
+            where: { id: planId },
+            include: {
+                products: true,
+                planHistory: true,
+            },
+        });
+        
         return plan;
     }
 
     async removeProductFromPlan(planId: number, productId: number) {
-        const plan = await this.prisma.plan.update({
+        await this.prisma.plan.update({
             where: { id: planId },
             data: {
                 products: {
@@ -95,6 +103,14 @@ export class PlansService {
                 action: `Produto ${productId} removido com sucesso!`,
                 planId: planId,
                 productId: productId,
+            },
+        });
+
+        const plan = await this.prisma.plan.findUnique({
+            where: { id: planId },
+            include: {
+                products: true,
+                planHistory: true,
             },
         });
         return plan;
