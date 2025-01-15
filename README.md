@@ -40,7 +40,6 @@ Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** par
 - &#x2611; Paginação na exibição do histórico de produtos adicionados/removidos.
 
 ## Extras pessoais
-- &#x2611; Listar todos os planos e listar o histórico junto.
 - &#x2611; CRUD completa de produtos.
 - &#x2611; Utilização do Swagger para documentação completa do código.
 
