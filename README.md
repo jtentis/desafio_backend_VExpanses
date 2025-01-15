@@ -16,7 +16,7 @@
 ---
 
 ## 🛠️ Introdução
-Para este desafio, escolhi a opção de **Node.js** com **Nest.js** para a construção da API. A escolha foi feita baseada em eu ter uma maior facilidade com Node e Nest, visto que trabalho com essa linguagem. Foi utilizando o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
+Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** para a construção da API. A escolha dessas tecnologias foi baseada na minha familiaridade com elas, além de serem ferramentas amplamente utilizadas no mercado, conhecidas por sua escalabilidade, modularidade e eficiência no desenvolvimento de APIs. Foi utilizado o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
 ## 1. Criação de plano
   - &#x2611; Criar novo plano de assinatura
   - &#x2611; Cada plano deve conter pelo menos 1 produto no momento da criação.
@@ -104,7 +104,7 @@ Certifique-se de que você possui (mostrarei a versão para windows):
     ```
 
 4. Print de como deve ficar
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image.png" width="80%">
 </div>
 
@@ -138,7 +138,7 @@ npx prisma migrate dev
 npx prisma db seed
 ```
 
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-1.png" width="70%">
   <img src="/markdown_assets/image-2.png" width="70%">
 </div>
@@ -160,7 +160,7 @@ http://localhost:4000
 http://localhost:4000/api
 ```
 
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-3.png" width="100%">
 </div>
 
@@ -324,7 +324,7 @@ npm run test:e2e
 }
 ```
 Print do console
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-4.png" width="100%">
 </div>
 
