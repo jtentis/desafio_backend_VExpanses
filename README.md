@@ -1,22 +1,27 @@
 # Documentação da API
 
 ## 📋 Sumário
-1. [Introdução](#introdução)
-2. [Instalação](#Instalação)
+1. [🛠️ Introdução](#️-introdução)
+2. [💻 Instalação](#-instalação)
    - [Pré-requisitos](#pré-requisitos)
    - [Configurando o Banco de Dados (Docker)](#configurando-o-banco-de-dados-docker)
    - [Clonando o Repositório e Instalando Dependências](#clonando-o-repositório-e-instalando-dependências)
-3. [Configuração do Ambiente](#configuração-do-ambiente)
-4. [Executando o Projeto](#executando-o-projeto)
-5. [Endpoints e Documentação (Swagger)](#endpoints-e-documentação-swagger)
-6. [Testes e Resultados](#testes-e-resultados)
-7. [Estrutura do Projeto](#estrutura-do-projeto)
-8. [Funcionalidades Implementadas](#funcionalidades-implementadas)
+   - [Configuração do Ambiente](#️-configuração-do-ambiente)
+4. [Executando o Projeto](#-executando-o-projeto)
+5. [Endpoints e Documentação (Swagger)](#-endpoints-e-documentação-swagger)
+   - [Exemplos do Postman](#prints-de-exemplos-do-postman-endpoints-de-planos)
+6. [Testes e Resultados](#-testes-e-resultados)
+7. [Estrutura do Projeto](#-estrutura-do-projeto)
+8. [Funcionalidades](#-funcionalidades)
+9. [Erros que tive e soluções](#-erros-comuns-e-soluções)
+   - [Violação de Chave Estrangeira ao Excluir Produto](#erro-violação-de-chave-estrangeira-ao-excluir-produto)
+   - [Logs para Debugging](#logs-para-debugging)
+10. [Conclusão](#-conclusão)
 
 ---
 
 ## 🛠️ Introdução
-Para este desafio, escolhi a opção de **Node.js** com **Nest.js** para a construção da API. A escolha foi feita baseada em eu ter uma maior facilidade com Node e Nest, visto que trabalho com essa linguagem. Foi utilizando o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
+Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** para a construção da API. A escolha dessas tecnologias foi baseada na minha familiaridade com elas, além de serem ferramentas amplamente utilizadas no mercado, conhecidas por sua escalabilidade, modularidade e eficiência no desenvolvimento de APIs. Foi utilizado o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
 ## 1. Criação de plano
   - &#x2611; Criar novo plano de assinatura
   - &#x2611; Cada plano deve conter pelo menos 1 produto no momento da criação.
@@ -40,9 +45,10 @@ Para este desafio, escolhi a opção de **Node.js** com **Nest.js** para a const
 - &#x2611; Paginação na exibição do histórico de produtos adicionados/removidos.
 
 ## Extras pessoais
-- &#x2611; Listar todos os planos e listar o histórico junto.
 - &#x2611; CRUD completa de produtos.
 - &#x2611; Utilização do Swagger para documentação completa do código.
+- &#x2611; Utilização do Prisma ORM para a manipulação de dados e um desenvolvimento mais rápido e seguro.
+- &#x2611; Utilização do Docker para conteinerização do PostgreSQL.
 
 
 
@@ -56,7 +62,9 @@ Certifique-se de que você possui (mostrarei a versão para windows):
 
 ---
 
-## Configurando o Banco de Dados (Docker)
+### Configurando o Banco de Dados (Docker)
+1. Faça download e instale o [Docker Desktop](https://docs.docker.com/desktop/setup/install/windows-install/) caso não tenha.
+
 1. Crie um arquivo `docker-compose.yml`:
    ```yaml
    services:
@@ -104,11 +112,11 @@ Certifique-se de que você possui (mostrarei a versão para windows):
     ```
 
 4. Print de como deve ficar
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image.png" width="80%">
 </div>
 
-## Clonando o Repositório e Instalando Dependências
+### Clonando o Repositório e Instalando Dependências
 1. Clone o repositório:
 ```bash
 git clone <link-do-repositorio>
@@ -119,12 +127,16 @@ cd <nome-do-repositorio>
 ```bash
 npm install
 ```
-## 🛠️ Configuração do Ambiente
+### 🛠️ Configuração do Ambiente
 1. Crie um arquivo .env na raiz do projeto:
+    - [Link](https://jwtsecret.com/generate) para gerar JWT Token.
 
 ```env
   DATABASE_URL='postgresql://postgres:postgres@localhost:5432/vexpanses'
   JWT_SECRET='your_jwt_secret' #gere uma online caso precise
+  DB_USER = 'postgres'
+  DB_PASSWORD = 'postgres'
+  DB_NAME='vexpanses'
 ```
 2. Certifique-se de que a variável DATABASE_URL está correta para o banco de dados.
 3. Execute as migrações do Prisma:
@@ -138,12 +150,12 @@ npx prisma migrate dev
 npx prisma db seed
 ```
 
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-1.png" width="70%">
   <img src="/markdown_assets/image-2.png" width="70%">
 </div>
 
-### 🚀 Executando o Projeto
+## 🚀 Executando o Projeto
 
 1. Inicie o servidor:
 ```bash
@@ -160,11 +172,11 @@ http://localhost:4000
 http://localhost:4000/api
 ```
 
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-3.png" width="100%">
 </div>
 
-### 📜 Endpoints e Documentação (Swagger)
+## 📜 Endpoints e Documentação (Swagger)
 Os principais endpoints disponíveis são:
 
 1. Autenticação:
@@ -188,7 +200,24 @@ Os principais endpoints disponíveis são:
 4. Histórico:
     - GET /plans/:planId/history: Obter o histórico de um plano (com paginação).
 
-Espaço para print: Exemplos de payloads e respostas de endpoints
+### Prints de exemplos do postman (endpoints de planos)
+ [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar dentro do Postman e fazer download do Postman Agent).
+
+1. Criar plano
+![alt text](/markdown_assets/image-5.png)
+
+2. Listar todos os planos
+![alt text](/markdown_assets/image-6.png)
+
+3. Listar plano especifico
+![alt text](/markdown_assets/image-8.png)
+
+4. Remover produto de plano
+![alt text](/markdown_assets/image-10.png)
+
+5. Adicionar produto em plano
+![alt text](/markdown_assets/image-9.png)
+
 
 ### 🧪 Testes e Resultados
 Os testes foram implementados utilizando supertest para E2E. Para rodar os testes:
@@ -324,68 +353,67 @@ npm run test:e2e
 }
 ```
 Print do console
-<div style="text-align:center">
+<div align="center">
   <img src="/markdown_assets/image-4.png" width="100%">
 </div>
 
 ### 📂 Estrutura do Projeto
 
-## prisma
-* [migrations/](.\prisma\migrations)
-  * [20250115011156_deixando_os_nomes_bonitos/](.\prisma\migrations\20250115011156_deixando_os_nomes_bonitos)
-  * [20250115011951_consertando_delete_product/](.\prisma\migrations\20250115011951_consertando_delete_product)
-  * [20250115012652_consertando_delete_product_dnv/](.\prisma\migrations\20250115012652_consertando_delete_product_dnv)
-  * [20250115013916_consertando_delete_product_dnv/](.\prisma\migrations\20250115013916_consertando_delete_product_dnv)
-  * [migration_lock.toml](.\prisma\migrations\migration_lock.toml)
-* [schema.prisma](.\prisma\schema.prisma)
-* [schema.test.prisma](.\prisma\schema.test.prisma)
-* [seed.ts](.\prisma\seed.ts)
+```
+project
+├── prisma
+│   ├── migrations
+│   ├── schema.prisma
+│   ├── schema.test.prisma
+│   └── seed.ts
+├── src
+│   ├── auth
+│   │   ├── dto
+│   │   │   └── auth.dto.ts
+│   │   ├── auth.controller.ts
+│   │   ├── auth.controller.spec.ts
+│   │   ├── auth.module.ts
+│   │   ├── auth.service.ts
+│   │   ├── auth.service.spec.ts
+│   │   ├── jwt-auth.guard.ts
+│   │   └── jwt.strategy.ts
+│   ├── middleware
+│   │   └── logging.middleware.ts
+│   ├── plan-history
+│   │   ├── plan-history.controller.ts
+│   │   ├── plan-history.controller.spec.ts
+│   │   ├── plan-history.module.ts
+│   │   ├── plan-history.service.ts
+│   │   └── plan-history.service.spec.ts
+│   ├── plans
+│   │   ├── dto
+│   │   │   └── create-plan.dto.ts
+│   │   ├── plans.controller.ts
+│   │   ├── plans.controller.spec.ts
+│   │   ├── plans.module.ts
+│   │   ├── plans.service.ts
+│   │   └── plans.service.spec.ts
+│   ├── prisma
+│   │   ├── prisma.module.ts
+│   │   ├── prisma.service.ts
+│   │   └── prisma.service.spec.ts
+│   ├── products
+│   │   ├── dto
+│   │   │   ├── create-product.dto.ts
+│   │   │   └── update-product.dto.ts
+│   │   ├── products.controller.ts
+│   │   ├── products.controller.spec.ts
+│   │   ├── products.module.ts
+│   │   ├── products.service.ts
+│   │   └── products.service.spec.ts
+│   ├── app.controller.ts
+│   ├── app.controller.spec.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   └── main.ts
 
-## src
-* [auth/](.\src\auth)
-  * [dto/](.\src\auth\dto)
-    * [auth.dto.ts](.\src\auth\dto\auth.dto.ts)
-  * [auth.controller.spec.ts](.\src\auth\auth.controller.spec.ts)
-  * [auth.controller.ts](.\src\auth\auth.controller.ts)
-  * [auth.module.ts](.\src\auth\auth.module.ts)
-  * [auth.service.spec.ts](.\src\auth\auth.service.spec.ts)
-  * [auth.service.ts](.\src\auth\auth.service.ts)
-  * [jwt-auth.guard.ts](.\src\auth\jwt-auth.guard.ts)
-  * [jwt.strategy.ts](.\src\auth\jwt.strategy.ts)
-* [middleware/](.\src\middleware)
-  * [logging.middleware.ts](.\src\middleware\logging.middleware.ts)
-* [plan-history/](.\src\plan-history)
-  * [plan-history.controller.spec.ts](.\src\plan-history\plan-history.controller.spec.ts)
-  * [plan-history.controller.ts](.\src\plan-history\plan-history.controller.ts)
-  * [plan-history.module.ts](.\src\plan-history\plan-history.module.ts)
-  * [plan-history.service.spec.ts](.\src\plan-history\plan-history.service.spec.ts)
-  * [plan-history.service.ts](.\src\plan-history\plan-history.service.ts)
-* [plans/](.\src\plans)
-  * [dto/](.\src\plans\dto)
-    * [create-plan.dto.ts](.\src\plans\dto\create-plan.dto.ts)
-  * [plans.controller.spec.ts](.\src\plans\plans.controller.spec.ts)
-  * [plans.controller.ts](.\src\plans\plans.controller.ts)
-  * [plans.module.ts](.\src\plans\plans.module.ts)
-  * [plans.service.spec.ts](.\src\plans\plans.service.spec.ts)
-  * [plans.service.ts](.\src\plans\plans.service.ts)
-* [prisma/](.\src\prisma)
-  * [prisma.module.ts](.\src\prisma\prisma.module.ts)
-  * [prisma.service.spec.ts](.\src\prisma\prisma.service.spec.ts)
-  * [prisma.service.ts](.\src\prisma\prisma.service.ts)
-* [products/](.\src\products)
-  * [dto/](.\src\products\dto)
-    * [create-product.dto.ts](.\src\products\dto\create-product.dto.ts)
-    * [update-product.dto.ts](.\src\products\dto\update-product.dto.ts)
-  * [products.controller.spec.ts](.\src\products\products.controller.spec.ts)
-  * [products.controller.ts](.\src\products\products.controller.ts)
-  * [products.module.ts](.\src\products\products.module.ts)
-  * [products.service.spec.ts](.\src\products\products.service.spec.ts)
-  * [products.service.ts](.\src\products\products.service.ts)
-* [app.controller.spec.ts](.\src\app.controller.spec.ts)
-* [app.controller.ts](.\src\app.controller.ts)
-* [app.module.ts](.\src\app.module.ts)
-* [app.service.ts](.\src\app.service.ts)
-* [main.ts](.\src\main.ts)
+```
+
 
 ## 🚀 Funcionalidades
 **Validação de Produtos na Criação de Planos**
@@ -435,23 +463,6 @@ Resposta:
   "error": "Bad Request"
 }
 ```
-### Prints de exemplos do postman (endpoints de planos)
-## [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar).
-
-1. Criar plano
-![alt text](/markdown_assets/image-5.png)
-
-2. Listar todos os planos
-![alt text](/markdown_assets/image-6.png)
-
-3. Listar plano especifico
-![alt text](/markdown_assets/image-8.png)
-
-4. Adicionar produto em plano
-![alt text](/markdown_assets/image-9.png)
-
-5. Remover produto de plano
-![alt text](/markdown_assets/image-10.png)
 
 ## 🔍 Erros Comuns e Soluções
 **Erro: Produto Não Encontrado na Criação de Plano**
