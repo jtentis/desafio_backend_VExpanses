@@ -50,6 +50,14 @@ export class PlansService {
       }
 
     async addProductToPlan(planId: number, productId: number) {
+        const productExists = await this.prisma.plan.findFirst({
+            where: {id: productId},
+        });
+
+        if (!productExists) {
+            throw new BadRequestException(`O produto ${productId} não existe.`);
+        }
+
         await this.prisma.plan.update({
             where: {
                 id: planId,
@@ -87,17 +95,28 @@ export class PlansService {
     }
 
     async removeProductFromPlan(planId: number, productId: number) {
+        const productExistsInPlan = await this.prisma.plan.findFirst({
+            where: {
+                id: planId,
+                products: {
+                    some: { id: productId },
+                },
+            },
+        });
+    
+        if (!productExistsInPlan) {
+            throw new BadRequestException(`O produto ${productId} não está associado ao plano ${planId}.`);
+        }
+    
         await this.prisma.plan.update({
             where: { id: planId },
             data: {
                 products: {
                     disconnect: { id: productId },
                 },
-            },include:{
-                planHistory: true,
-            }
+            },
         });
-
+    
         await this.prisma.planHistory.create({
             data: {
                 action: `Produto ${productId} removido com sucesso!`,
@@ -105,16 +124,18 @@ export class PlansService {
                 productId: productId,
             },
         });
-
-        const plan = await this.prisma.plan.findUnique({
+    
+        const updatedPlan = await this.prisma.plan.findUnique({
             where: { id: planId },
             include: {
                 products: true,
                 planHistory: true,
             },
         });
-        return plan;
+    
+        return updatedPlan;
     }
+    
 
     async getPlanDetails(planId: number) {
         const plan = await this.prisma.plan.findUnique({
