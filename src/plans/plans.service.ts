@@ -31,6 +31,9 @@ export class PlansService {
               connect: createPlanDto.productIds.map((id) => ({ id })),
             },
           },
+          include:{
+            products: true
+          }
         });
       
         for (const productId of createPlanDto.productIds) {
