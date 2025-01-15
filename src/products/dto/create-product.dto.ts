@@ -9,7 +9,7 @@ export class CreateProductDto {
   @IsOptional()
   description?: string;
 
-  @ApiProperty({ description: 'A qual plano esse produto será vinculado?', example: 'Opicional caso queira vincular produto a um plano logo na sua criação!', required: false })
+  @ApiProperty({ description: 'A qual plano esse produto será vinculado?', example: '1', required: false })
   @IsOptional()
   planId?: number;
 }

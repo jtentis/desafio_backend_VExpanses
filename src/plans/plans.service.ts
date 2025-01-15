@@ -50,12 +50,12 @@ export class PlansService {
     }
 
     async addProductToPlan(planId: number, productId: number) {
-        const productExists = await this.prisma.plan.findFirst({
+        const productExists = await this.prisma.product.findFirst({
             where: { id: productId },
         });
 
         if (!productExists) {
-            throw new BadRequestException(`O produto ${productId} não existe.`);
+            throw new BadRequestException(`O produto ${productId} não existe.x`);
         }
 
         await this.prisma.plan.update({
@@ -178,10 +178,10 @@ export class PlansService {
         const totalPages = Math.ceil(total / limit);
 
         return {
-            total,
-            totalPages,
-            currentPage: page,
-            history,
+            "Total": total,
+            "Total de páginas": totalPages,
+            "Página atual": page,
+            "Histórico": history,
         };
     }
 }
