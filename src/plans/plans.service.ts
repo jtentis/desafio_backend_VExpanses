@@ -8,29 +8,43 @@ export class PlansService {
 
     async create(createPlanDto: CreatePlanDto) {
         if (!createPlanDto.productIds || createPlanDto.productIds.length === 0) {
-            throw new BadRequestException('O plano deve ser criado com pelo menos um produto.');
+          throw new BadRequestException('O plano deve ser criado com pelo menos um produto.');
         }
-        const plan = await this.prisma.plan.create({
-            data: {
-                name: createPlanDto.name,
-                description: createPlanDto.description,
-                products: {
-                    connect: createPlanDto.productIds.map(id => ({ id })),
-                },
-            },
+      
+        // Verificar a existência dos produtos
+        const existingProducts = await this.prisma.product.findMany({
+          where: {
+            id: { in: createPlanDto.productIds },
+          },
         });
-
-        for (const productId of createPlanDto.productIds) {
-            await this.prisma.planHistory.create({
-                data: {
-                    action: `Produto ${productId} foi adicionado ao plano ${plan.name}.`,
-                    planId: plan.id,
-                    productId: productId,
-                },
-            });
+      
+        if (existingProducts.length !== createPlanDto.productIds.length) {
+          throw new BadRequestException('Um ou mais produtos fornecidos não existem.');
         }
+      
+        // Criar o plano
+        const plan = await this.prisma.plan.create({
+          data: {
+            name: createPlanDto.name,
+            description: createPlanDto.description,
+            products: {
+              connect: createPlanDto.productIds.map((id) => ({ id })),
+            },
+          },
+        });
+      
+        for (const productId of createPlanDto.productIds) {
+          await this.prisma.planHistory.create({
+            data: {
+              action: `Produto ${productId} foi adicionado ao plano ${plan.name}.`,
+              planId: plan.id,
+              productId: productId,
+            },
+          });
+        }
+      
         return plan;
-    }
+      }
 
     async addProductToPlan(planId: number, productId: number) {
         const plan = await this.prisma.plan.update({
@@ -68,7 +82,9 @@ export class PlansService {
                 products: {
                     disconnect: { id: productId },
                 },
-            },
+            },include:{
+                planHistory: true,
+            }
         });
 
         await this.prisma.planHistory.create({
