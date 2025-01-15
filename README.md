@@ -1,99 +1,477 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Documentação da API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## 📋 Sumário
+1. [Introdução](#introdução)
+2. [Instalação](#Instalação)
+   - [Pré-requisitos](#pré-requisitos)
+   - [Configurando o Banco de Dados (Docker)](#configurando-o-banco-de-dados-docker)
+   - [Clonando o Repositório e Instalando Dependências](#clonando-o-repositório-e-instalando-dependências)
+3. [Configuração do Ambiente](#configuração-do-ambiente)
+4. [Executando o Projeto](#executando-o-projeto)
+5. [Endpoints e Documentação (Swagger)](#endpoints-e-documentação-swagger)
+6. [Testes e Resultados](#testes-e-resultados)
+7. [Estrutura do Projeto](#estrutura-do-projeto)
+8. [Funcionalidades Implementadas](#funcionalidades-implementadas)
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🛠️ Introdução
+Para este desafio, escolhi a opção de **Node.js** com **Nest.js** para a construção da API. A escolha foi feita baseada em eu ter uma maior facilidade com Node e Nest, visto que trabalho com essa linguagem. Foi utilizando o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
+## 1. Criação de plano
+  - &#x2611; Criar novo plano de assinatura
+  - &#x2611; Cada plano deve conter pelo menos 1 produto no momento da criação.
+  - &#x2611; Produtos possuem os seguintes atributos:
+    - &#x2611; ID (gerado automaticamente)
+    - &#x2611; Nome (obrigatório)
+    - &#x2611; Descrição (opcional)
+## 2. Adição de Produtos ao Plano
+- &#x2611; Adicionar um produto a um plano existente
+## 3. Remoção de Produtos do Plano
+- &#x2611; Removerumproduto de um plano existente.
+## 4. Exibição de Detalhamento do Plano
+- &#x2611; Recuperar os detalhes de um plano, incluindo:
+  - &#x2611; Informações gerais do plano.
+  - &#x2611; Lista atual de produtos associados ao plano.
+  - &#x2611; Histórico de produtos que já foram adicionados e removidos.
+## Extras
+- &#x2611; Implementação de autenticação básica na API (ex.: autenticação por token).
+- &#x2611; Usode testes automatizados cobrindo os principais fluxos da API.
+- &#x2611; Logs que registram as ações executadas nos endpoints.
+- &#x2611; Paginação na exibição do histórico de produtos adicionados/removidos.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Extras pessoais
+- &#x2611; Listar todos os planos e listar o histórico junto.
+- &#x2611; CRUD completa de produtos.
+- &#x2611; Utilização do Swagger para documentação completa do código.
 
-## Project setup
 
+
+## 💻 Instalação
+
+### Pré-requisitos
+Certifique-se de que você possui (mostrarei a versão para windows):
+- [Node.js](https://nodejs.org/) instalado.
+- [Docker](https://www.docker.com/) instalado e funcionando.
+- [PostgreSQL](https://www.postgresql.org/) (se não for usar Docker).
+
+---
+
+## Configurando o Banco de Dados (Docker)
+1. Crie um arquivo `docker-compose.yml`:
+   ```yaml
+   services:
+
+    db_postgres:
+      image: postgres:13.5
+      container_name: db_postgres
+      restart: always
+      environment:
+        POSTGRES_USER: ${DB_USER}
+        POSTGRES_PASSWORD: ${DB_PASSWORD}
+        POSTGRES_DB: ${DB_NAME}
+      volumes:
+        - postgres:/var/lib/postgresql/data
+      ports:
+        - '5432:5432'
+      networks:
+        - app_network
+
+    pgadmin_postgres:
+      image: dpage/pgadmin4
+      container_name: pgadmin_postgres
+      environment:
+        PGADMIN_DEFAULT_EMAIL: "jps.tentis@gmail.com"
+        PGADMIN_DEFAULT_PASSWORD: "pass"
+      ports:
+        - "5050:80"
+      depends_on:
+        - db_postgres
+      networks:
+        - app_network
+
+    volumes:
+      postgres:
+
+    networks:
+      app_network:
+        driver: bridge
+2. Suba o banco de dados com o Docker:
+    ```bash
+    docker-compose up -d
+3. Verifique se o banco está rodando:
+    ```bash
+    docker ps
+    ```
+
+4. Print de como deve ficar
+<div style="text-align:center">
+  <img src="image.png" width="80%">
+</div>
+
+## Clonando o Repositório e Instalando Dependências
+1. Clone o repositório:
 ```bash
-$ npm install
+git clone <link-do-repositorio>
+cd <nome-do-repositorio>
 ```
 
-## Compile and run the project
+2. Instale as dependências:
+```bash
+npm install
+```
+## 🛠️ Configuração do Ambiente
+1. Crie um arquivo .env na raiz do projeto:
+
+```env
+  DATABASE_URL='postgresql://postgres:postgres@localhost:5432/vexpanses'
+  JWT_SECRET='your_jwt_secret' #gere uma online caso precise
+```
+2. Certifique-se de que a variável DATABASE_URL está correta para o banco de dados.
+3. Execute as migrações do Prisma:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npx prisma migrate dev
 ```
 
-## Run tests
+4. Opcionalmente, popule o banco de dados:
+```bash
+npx prisma db seed
+```
+
+<div style="text-align:center">
+  <img src="image-1.png" width="70%">
+  <img src="image-2.png" width="70%">
+</div>
+
+### 🚀 Executando o Projeto
+
+1. Inicie o servidor:
+```bash
+npm run start:dev
+```
+
+2. Acesse a API em:
+```bash
+http://localhost:4000
+```
+
+3. Acesse a documentação Swagger em:
+```bash
+http://localhost:4000/api
+```
+
+<div style="text-align:center">
+  <img src="image-3.png" width="100%">
+</div>
+
+### 📜 Endpoints e Documentação (Swagger)
+Os principais endpoints disponíveis são:
+
+1. Autenticação:
+- POST /auth/login: Autenticar-se com um usuário válido e obter um token JWT.
+
+2. Planos:
+    - POST /plans Criar um novo plano.
+    - GET /plans Buscar detalhes de todos os planos.
+    - GET /plans/{id} Buscar detalhes de um plano.
+    - POST /plans/{planId}/products/{productId} Adicionar um produto a um plano.
+    - DELETE /plans/{planId}/products/{productId} Remover um produto de um plano.
+    - GET /plans/{planId}/history Ver todo histórico com paginação.
+
+3. Produtos:
+    - POST /products Criar um novo produto.
+    - GET /products Listar um produto especifico.
+    - GET /products/{id} Listar todos os produtos.
+    - PATCH /products/{id} Atualizar um produto.
+    - DELETE /products/{id} Remover um produto.
+
+4. Histórico:
+    - GET /plans/:planId/history: Obter o histórico de um plano (com paginação).
+
+Espaço para print: Exemplos de payloads e respostas de endpoints
+
+### 🧪 Testes e Resultados
+Os testes foram implementados utilizando supertest para E2E. Para rodar os testes:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run test:e2e
 ```
 
-## Deployment
+- Resultados dos testes:
+  - Testes para criação de planos.
+  - Testes para adição e remoção de produtos.
+  - Validação de histórico.
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+```json
+  {
+    "numFailedTestSuites": 0,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 1,
+    "numPassedTests": 5,
+    "numPendingTestSuites": 0,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0,
+    "numTodoTests": 0,
+    "numTotalTestSuites": 1,
+    "numTotalTests": 5,
+    "openHandles": [],
+    "snapshot": {
+        "added": 0,
+        "didUpdate": false,
+        "failure": false,
+        "filesAdded": 0,
+        "filesRemoved": 0,
+        "filesRemovedList": [],
+        "filesUnmatched": 0,
+        "filesUpdated": 0,
+        "matched": 0,
+        "total": 0,
+        "unchecked": 0,
+        "uncheckedKeysByFile": [],
+        "unmatched": 0,
+        "updated": 0
+    },
+    "startTime": 1736899468561,
+    "success": true,
+    "testResults": [
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 49,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve criar um novo plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve criar um novo plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 19,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve associar produto em um plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve associar produto em um plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 18,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve deletar um produto de plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve deletar um produto de plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 9,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve criar um novo produto",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve criar um novo produto"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 9,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve retornar todos os produtos",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve retornar todos os produtos"
+                }
+            ],
+            "endTime": 1736899471725,
+            "message": "",
+            "name": "E:\\desafio_vexpanses\\test\\app.e2e-spec.ts",
+            "startTime": 1736899468644,
+            "status": "passed",
+            "summary": ""
+        }
+    ],
+    "wasInterrupted": false
+}
+```
+Print do console
+<div style="text-align:center">
+  <img src="image-4.png" width="100%">
+</div>
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 📂 Estrutura do Projeto
 
-```bash
-$ npm install -g mau
-$ mau deploy
+## prisma
+* [migrations/](.\prisma\migrations)
+  * [20250115011156_deixando_os_nomes_bonitos/](.\prisma\migrations\20250115011156_deixando_os_nomes_bonitos)
+  * [20250115011951_consertando_delete_product/](.\prisma\migrations\20250115011951_consertando_delete_product)
+  * [20250115012652_consertando_delete_product_dnv/](.\prisma\migrations\20250115012652_consertando_delete_product_dnv)
+  * [20250115013916_consertando_delete_product_dnv/](.\prisma\migrations\20250115013916_consertando_delete_product_dnv)
+  * [migration_lock.toml](.\prisma\migrations\migration_lock.toml)
+* [schema.prisma](.\prisma\schema.prisma)
+* [schema.test.prisma](.\prisma\schema.test.prisma)
+* [seed.ts](.\prisma\seed.ts)
+
+## src
+* [auth/](.\src\auth)
+  * [dto/](.\src\auth\dto)
+    * [auth.dto.ts](.\src\auth\dto\auth.dto.ts)
+  * [auth.controller.spec.ts](.\src\auth\auth.controller.spec.ts)
+  * [auth.controller.ts](.\src\auth\auth.controller.ts)
+  * [auth.module.ts](.\src\auth\auth.module.ts)
+  * [auth.service.spec.ts](.\src\auth\auth.service.spec.ts)
+  * [auth.service.ts](.\src\auth\auth.service.ts)
+  * [jwt-auth.guard.ts](.\src\auth\jwt-auth.guard.ts)
+  * [jwt.strategy.ts](.\src\auth\jwt.strategy.ts)
+* [middleware/](.\src\middleware)
+  * [logging.middleware.ts](.\src\middleware\logging.middleware.ts)
+* [plan-history/](.\src\plan-history)
+  * [plan-history.controller.spec.ts](.\src\plan-history\plan-history.controller.spec.ts)
+  * [plan-history.controller.ts](.\src\plan-history\plan-history.controller.ts)
+  * [plan-history.module.ts](.\src\plan-history\plan-history.module.ts)
+  * [plan-history.service.spec.ts](.\src\plan-history\plan-history.service.spec.ts)
+  * [plan-history.service.ts](.\src\plan-history\plan-history.service.ts)
+* [plans/](.\src\plans)
+  * [dto/](.\src\plans\dto)
+    * [create-plan.dto.ts](.\src\plans\dto\create-plan.dto.ts)
+  * [plans.controller.spec.ts](.\src\plans\plans.controller.spec.ts)
+  * [plans.controller.ts](.\src\plans\plans.controller.ts)
+  * [plans.module.ts](.\src\plans\plans.module.ts)
+  * [plans.service.spec.ts](.\src\plans\plans.service.spec.ts)
+  * [plans.service.ts](.\src\plans\plans.service.ts)
+* [prisma/](.\src\prisma)
+  * [prisma.module.ts](.\src\prisma\prisma.module.ts)
+  * [prisma.service.spec.ts](.\src\prisma\prisma.service.spec.ts)
+  * [prisma.service.ts](.\src\prisma\prisma.service.ts)
+* [products/](.\src\products)
+  * [dto/](.\src\products\dto)
+    * [create-product.dto.ts](.\src\products\dto\create-product.dto.ts)
+    * [update-product.dto.ts](.\src\products\dto\update-product.dto.ts)
+  * [products.controller.spec.ts](.\src\products\products.controller.spec.ts)
+  * [products.controller.ts](.\src\products\products.controller.ts)
+  * [products.module.ts](.\src\products\products.module.ts)
+  * [products.service.spec.ts](.\src\products\products.service.spec.ts)
+  * [products.service.ts](.\src\products\products.service.ts)
+* [app.controller.spec.ts](.\src\app.controller.spec.ts)
+* [app.controller.ts](.\src\app.controller.ts)
+* [app.module.ts](.\src\app.module.ts)
+* [app.service.ts](.\src\app.service.ts)
+* [main.ts](.\src\main.ts)
+
+## 🚀 Funcionalidades
+**Validação de Produtos na Criação de Planos**
+
+Antes de criar um plano, a API valida se todos os produtos fornecidos existem no banco de dados. Caso algum produto seja inválido, uma mensagem de erro é retornada.
+
+**Exemplo de Requisição Válida:**
+
+```json
+POST /plans
+{
+  "name": "Plano Claro TV",
+  "description": "Plano com todos os recursos da Claro Tv para voce!",
+  "productIds": [1, 2, 3]
+}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Resposta:
+```json
+{
+  "id": 1,
+  "name": "Plano Claro TV",
+  "description": "Plano com todos os recursos da Claro TV para voce!",
+  "products": [
+    { "id": 1, "name": "Produto A" },
+    { "id": 2, "name": "Produto B" },
+    { "id": 3, "name": "Produto C" }
+  ]
+}
+```
 
-## Resources
+Exemplo de Requisição Inválida:
+```json
+POST /plans
+{
+  "name": "Plano Vivo Fibra",
+  "description": "Plano básico sem muitos recursos.",
+  "productIds": [999, 1000]
+}
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+Resposta:
+```json
+{
+  "statusCode": 400,
+  "message": "Um ou mais produtos fornecidos não existem.",
+  "error": "Bad Request"
+}
+```
+### Prints de exemplos do postman (endpoints de planos)
+## [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar).
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1. Criar plano
+![alt text](image-5.png)
 
-## Support
+2. Listar todos os planos
+![alt text](image-6.png)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+3. Listar plano especifico
+![alt text](image-8.png)
 
-## Stay in touch
+4. Adicionar produto em plano
+![alt text](image-9.png)
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+5. Remover produto de plano
+![alt text](image-10.png)
 
-## License
+## 🔍 Erros Comuns e Soluções
+**Erro: Produto Não Encontrado na Criação de Plano**
+**Descrição:** Ao criar um plano, o erro "The required connected records were not found" pode aparecer se um produto inválido for fornecido.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+**Solução:** A API valida automaticamente os produtos antes de criar o plano e retorna um erro amigável.
+
+### Erro: Violação de Chave Estrangeira ao Excluir Produto
+**Descrição:** Quando um produto é excluído, o banco impede a ação devido a referências no histórico.
+
+**Solução:**
+- Registre a exclusão no histórico antes de excluir o produto.
+- Configure o schema para evitar onDelete: Cascade indesejado.
+
+### Logs para Debugging
+A API utiliza o sistema de logs do NestJS para registrar ações importantes, como:
+
+- Criação de planos.
+- Adição ou remoção de produtos.
+- Validação de entradas e erros.
+
+## 🔗 Conclusão
+O projeto poderia ser expandido de diversas formas: integrando a um frontend com UI/UX moderna, criando um controle de acesso avançado (com niveis de hierarquia) e expandir funcionalidades. Foi um projeto divertido de fazer, já tive contato com todas as tecnologias utilizadas, então gostei bastante de fazer. Além das minhas dificuldades que foram listadas acima, também tive problema com tempo, estou finalizando meu TCC e preciso entregar logo, então tentei fazer da melhor maneira possível dentro do que foi pedido e mais algumas coisinhas. Espero que tenham gostado do meu projeto. 

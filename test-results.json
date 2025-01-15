@@ -1,1 +1,119 @@
-{"numFailedTestSuites":0,"numFailedTests":0,"numPassedTestSuites":1,"numPassedTests":5,"numPendingTestSuites":0,"numPendingTests":0,"numRuntimeErrorTestSuites":0,"numTodoTests":0,"numTotalTestSuites":1,"numTotalTests":5,"openHandles":[],"snapshot":{"added":0,"didUpdate":false,"failure":false,"filesAdded":0,"filesRemoved":0,"filesRemovedList":[],"filesUnmatched":0,"filesUpdated":0,"matched":0,"total":0,"unchecked":0,"uncheckedKeysByFile":[],"unmatched":0,"updated":0},"startTime":1736899468561,"success":true,"testResults":[{"assertionResults":[{"ancestorTitles":["App E2E"],"duration":49,"failureDetails":[],"failureMessages":[],"fullName":"App E2E deve criar um novo plano","invocations":1,"location":null,"numPassingAsserts":3,"retryReasons":[],"status":"passed","title":"deve criar um novo plano"},{"ancestorTitles":["App E2E"],"duration":19,"failureDetails":[],"failureMessages":[],"fullName":"App E2E deve associar produto em um plano","invocations":1,"location":null,"numPassingAsserts":3,"retryReasons":[],"status":"passed","title":"deve associar produto em um plano"},{"ancestorTitles":["App E2E"],"duration":18,"failureDetails":[],"failureMessages":[],"fullName":"App E2E deve deletar um produto de plano","invocations":1,"location":null,"numPassingAsserts":3,"retryReasons":[],"status":"passed","title":"deve deletar um produto de plano"},{"ancestorTitles":["App E2E"],"duration":9,"failureDetails":[],"failureMessages":[],"fullName":"App E2E deve criar um novo produto","invocations":1,"location":null,"numPassingAsserts":3,"retryReasons":[],"status":"passed","title":"deve criar um novo produto"},{"ancestorTitles":["App E2E"],"duration":9,"failureDetails":[],"failureMessages":[],"fullName":"App E2E deve retornar todos os produtos","invocations":1,"location":null,"numPassingAsserts":2,"retryReasons":[],"status":"passed","title":"deve retornar todos os produtos"}],"endTime":1736899471725,"message":"","name":"E:\\desafio_vexpanses\\test\\app.e2e-spec.ts","startTime":1736899468644,"status":"passed","summary":""}],"wasInterrupted":false}
+{
+    "numFailedTestSuites": 0,
+    "numFailedTests": 0,
+    "numPassedTestSuites": 1,
+    "numPassedTests": 5,
+    "numPendingTestSuites": 0,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0,
+    "numTodoTests": 0,
+    "numTotalTestSuites": 1,
+    "numTotalTests": 5,
+    "openHandles": [],
+    "snapshot": {
+        "added": 0,
+        "didUpdate": false,
+        "failure": false,
+        "filesAdded": 0,
+        "filesRemoved": 0,
+        "filesRemovedList": [],
+        "filesUnmatched": 0,
+        "filesUpdated": 0,
+        "matched": 0,
+        "total": 0,
+        "unchecked": 0,
+        "uncheckedKeysByFile": [],
+        "unmatched": 0,
+        "updated": 0
+    },
+    "startTime": 1736899468561,
+    "success": true,
+    "testResults": [
+        {
+            "assertionResults": [
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 49,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve criar um novo plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve criar um novo plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 19,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve associar produto em um plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve associar produto em um plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 18,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve deletar um produto de plano",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve deletar um produto de plano"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 9,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve criar um novo produto",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 3,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve criar um novo produto"
+                },
+                {
+                    "ancestorTitles": [
+                        "App E2E"
+                    ],
+                    "duration": 9,
+                    "failureDetails": [],
+                    "failureMessages": [],
+                    "fullName": "App E2E deve retornar todos os produtos",
+                    "invocations": 1,
+                    "location": null,
+                    "numPassingAsserts": 2,
+                    "retryReasons": [],
+                    "status": "passed",
+                    "title": "deve retornar todos os produtos"
+                }
+            ],
+            "endTime": 1736899471725,
+            "message": "",
+            "name": "E:\\desafio_vexpanses\\test\\app.e2e-spec.ts",
+            "startTime": 1736899468644,
+            "status": "passed",
+            "summary": ""
+        }
+    ],
+    "wasInterrupted": false
+}
