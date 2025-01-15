@@ -16,12 +16,13 @@
 9. [Erros que tive e soluções](#-erros-comuns-e-soluções)
    - [Violação de Chave Estrangeira ao Excluir Produto](#erro-violação-de-chave-estrangeira-ao-excluir-produto)
    - [Logs para Debugging](#logs-para-debugging)
+10. [Decisões](#-decisões-técnicas-tomadas-e-o-porquê)
 10. [Conclusão](#-conclusão)
 
 ---
 
 ## 🛠️ Introdução
-Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** para a construção da API. A escolha dessas tecnologias foi baseada na minha familiaridade com elas, além de serem ferramentas amplamente utilizadas no mercado, conhecidas por sua escalabilidade, modularidade e eficiência no desenvolvimento de APIs. Foi utilizado o **Prisma ORM** para gerenciar o banco de dados PostgreSQL. Abaixo segue relação do que foi pedido com o que foi concluido:
+Para este desafio, optei por utilizar **Node.js** juntamente com **Nest.js** para a construção da API. A escolha dessas tecnologias foi baseada na minha familiaridade com elas, além de serem ferramentas amplamente utilizadas no mercado, conhecidas por sua escalabilidade, modularidade e eficiência no desenvolvimento de APIs. Foi utilizado o **Prisma ORM** para gerenciar o banco de dados PostgreSQL (explicações detalhadas sobre minhas escolhas presentes no penultimo tópico). Abaixo segue relação do que foi pedido com o que foi concluido:
 ## 1. Criação de plano
   - &#x2611; Criar novo plano de assinatura
   - &#x2611; Cada plano deve conter pelo menos 1 produto no momento da criação.
@@ -415,7 +416,7 @@ project
 ```
 
 
-## 🚀 Funcionalidades
+## 🚀 Exemplo de funcionalidade
 **Validação de Produtos na Criação de Planos**
 
 Antes de criar um plano, a API valida se todos os produtos fornecidos existem no banco de dados. Caso algum produto seja inválido, uma mensagem de erro é retornada.
@@ -445,7 +446,9 @@ Resposta:
 }
 ```
 
-Exemplo de Requisição Inválida:
+Exemplo de Requisições inválidas:
+
+1.
 ```json
 POST /plans
 {
@@ -454,13 +457,29 @@ POST /plans
   "productIds": [999, 1000]
 }
 ```
+2.
+```json
+POST /plans/:planId/products/:productId
+POST /plans/1/products/999
+```
 
-Resposta:
+Respostas:
+
+1.
 ```json
 {
-  "statusCode": 400,
   "message": "Um ou mais produtos fornecidos não existem.",
-  "error": "Bad Request"
+  "error": "Bad Request",
+  "statusCode": 400
+}
+```
+
+2.
+```json
+{
+    "message": "O produto 999 não existe.",
+    "error": "Bad Request",
+    "statusCode": 400
 }
 ```
 
@@ -483,6 +502,46 @@ A API utiliza o sistema de logs do NestJS para registrar ações importantes, co
 - Criação de planos.
 - Adição ou remoção de produtos.
 - Validação de entradas e erros.
+
+## 🧑‍💻 Decisões técnicas tomadas e o porquê
+
+### 1. **Escolha do prisma**
+- **Prisma ORM**:
+  - Prisma foi utilizado para interagir com o banco de dados PostgreSQL. Ele permite manipulações simplificadas das relações entre entidades e validações automáticas, além de fornecer ferramentas como introspecção e geração automática de clientes.
+
+### 2. **Banco de Dados**
+- **PostgreSQL**:
+  - PostgreSQL foi escolhido por sua confiabilidade, suporte avançado a tipos de dados (permitindo assim uma maior escalabilidade) e afinidade, além de ser amplamente usado em produção.
+  - O banco foi configurado utilizando **Docker**, garantindo facilidade na instalação e consistência entre os ambientes de desenvolvimento.
+
+### 3. **Estrutura do Projeto**
+- A API foi organizada em módulos (`auth`, `plans`, `products`, etc.) para separar responsabilidades e facilitar a manutenção.
+- Cada módulo contém controllers, serviços e DTOs, seguindo o padrão **MVC** e boas práticas de design de software.
+- A divisão dos arquivos também possibilita futuras expansões ou modificações sem impactar outras partes do sistema.
+
+### 4. **Autenticação e Segurança**
+- A autenticação foi implementada com **JWT** (JSON Web Token) para gerenciar o acesso aos endpoints.
+- Essa escolha foi feita devido à leveza e simplicidade do JWT, além de sua ampla adoção em APIs RESTful.
+
+### 5. **Validações**
+- O pacote **class-validator** foi utilizado para validar os dados enviados nos DTOs, garantindo que apenas informações consistentes sejam processadas.
+- Por exemplo:
+  - Validação de que um plano deve conter ao menos um produto na sua criação.
+  - Verificação de que produtos referenciados existem antes de associá-los a um plano.
+
+### 6. **Testes**
+- Testes end-to-end (E2E) foram implementados usando **Jest** e **Supertest** para validar os principais fluxos da aplicação.
+- Isso foi essencial para garantir que os endpoints se comportassem conforme esperado, especialmente após mudanças ou adições de novas funcionalidades.
+
+### 7. **Documentação**
+- A documentação dos endpoints foi feita com **Swagger**, facilitando o entendimento e o uso da API por outros desenvolvedores.
+- Essa escolha permite testar os endpoints diretamente pela interface gerada automaticamente.
+
+### 8. **Logs**
+- Foi implementado um middleware de logging utilizando o sistema de logs do NestJS.
+- Os logs registram cada requisição feita à API, com informações úteis como método, URL e tempo de execução. Isso ajuda na identificação e resolução de problemas.
+
+Essas decisões foram feitas para atender aos requisitos do projeto, mantendo a qualidade do código e a escalabilidade do sistema, além de garantir que a API seja flexível o suficiente para futuras melhorias.
 
 ## 🔗 Conclusão
 O projeto poderia ser expandido de diversas formas: integrando a um frontend com UI/UX moderna, criando um controle de acesso avançado (com niveis de hierarquia) e expandir funcionalidades. Foi um projeto divertido de fazer, já tive contato com todas as tecnologias utilizadas, então gostei bastante de fazer. Além das minhas dificuldades que foram listadas acima, também tive problema com tempo, estou finalizando meu TCC e preciso entregar logo, então tentei fazer da melhor maneira possível dentro do que foi pedido e mais algumas coisinhas. Espero que tenham gostado do meu projeto. 
