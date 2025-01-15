@@ -105,7 +105,7 @@ Certifique-se de que você possui (mostrarei a versão para windows):
 
 4. Print de como deve ficar
 <div style="text-align:center">
-  <img src="image.png" width="80%">
+  <img src="/markdown_assets/image.png" width="80%">
 </div>
 
 ## Clonando o Repositório e Instalando Dependências
@@ -139,8 +139,8 @@ npx prisma db seed
 ```
 
 <div style="text-align:center">
-  <img src="image-1.png" width="70%">
-  <img src="image-2.png" width="70%">
+  <img src="/markdown_assets/image-1.png" width="70%">
+  <img src="/markdown_assets/image-2.png" width="70%">
 </div>
 
 ### 🚀 Executando o Projeto
@@ -161,7 +161,7 @@ http://localhost:4000/api
 ```
 
 <div style="text-align:center">
-  <img src="image-3.png" width="100%">
+  <img src="/markdown_assets/image-3.png" width="100%">
 </div>
 
 ### 📜 Endpoints e Documentação (Swagger)
@@ -325,7 +325,7 @@ npm run test:e2e
 ```
 Print do console
 <div style="text-align:center">
-  <img src="image-4.png" width="100%">
+  <img src="/markdown_assets/image-4.png" width="100%">
 </div>
 
 ### 📂 Estrutura do Projeto
@@ -439,19 +439,19 @@ Resposta:
 ## [Postman Collection](.\markdown_assets\VExpanses_API_Collection.postman_collection.json) para facilitar (basta importar).
 
 1. Criar plano
-![alt text](image-5.png)
+![alt text](/markdown_assets/image-5.png)
 
 2. Listar todos os planos
-![alt text](image-6.png)
+![alt text](/markdown_assets/image-6.png)
 
 3. Listar plano especifico
-![alt text](image-8.png)
+![alt text](/markdown_assets/image-8.png)
 
 4. Adicionar produto em plano
-![alt text](image-9.png)
+![alt text](/markdown_assets/image-9.png)
 
 5. Remover produto de plano
-![alt text](image-10.png)
+![alt text](/markdown_assets/image-10.png)
 
 ## 🔍 Erros Comuns e Soluções
 **Erro: Produto Não Encontrado na Criação de Plano**
