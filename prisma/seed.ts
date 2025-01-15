@@ -18,29 +18,29 @@ async function main() {
 
   const product1 = await prisma.product.create({
     data: {
-      name: 'Produto A',
-      description: 'Descrição do Produto A',
+      name: 'Plano de Celular 50GB',
+      description: 'Whatspp ilimitado!',
     },
   });
 
   const product2 = await prisma.product.create({
     data: {
-      name: 'Produto B',
-      description: 'Descrição do Produto B',
+      name: 'Plano de Celular 100GB',
+      description: 'Whatspp e Youtube ilimitados!',
     },
   });
 
   const product3 = await prisma.product.create({
     data: {
-      name: 'Produto C',
-      description: 'Descrição do Produto C',
+      name: 'Plano de Celular 150GB',
+      description: 'Whatspp, Youtube e Waze ilimitados!',
     },
   });
 
   const plan1 = await prisma.plan.create({
     data: {
-      name: 'plano básico',
-      description: 'plano inicial.',
+      name: 'Operadora Claro',
+      description: 'Planos da Claro!',
       products: {
         connect: [{ id: product1.id }],
       },
@@ -49,8 +49,8 @@ async function main() {
 
   const plan2 = await prisma.plan.create({
     data: {
-      name: 'plano premium',
-      description: 'plano premium com produtos premium',
+      name: 'Operadora Tim',
+      description: 'Planos da Tim!',
       products: {
         connect: [{ id: product2.id }, { id: product3.id }],
       },
