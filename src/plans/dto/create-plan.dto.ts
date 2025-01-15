@@ -14,5 +14,6 @@ export class CreatePlanDto {
     @IsInt()
     @IsNotEmpty()
     @ApiProperty({ description: 'IDs de produtos para associar a um plano (em formato de matriz).', example: '[1,2,3]' })
+    @IsInt({ each: true })
     productIds: number[];
 }
